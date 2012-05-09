@@ -1,1 +1,1 @@
-pyaudiere==0.2
+numpy==1.6.1
