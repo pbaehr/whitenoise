@@ -1,7 +1,8 @@
 from __future__ import division
-import audiere
 import Tkinter
 import argparse
+import audiere
+
 
 class App:
     def __init__(self, master, volume=100, pitch=100):
@@ -11,19 +12,25 @@ class App:
         self.play_image = Tkinter.PhotoImage(file='sound.gif')
         self.stop_image = Tkinter.PhotoImage(file='sound_mute.gif')
 
-        self.start_stop_button = Tkinter.Button(frame, image=self.stop_image, command=self.toggle_noise)
+        self.start_stop_button = Tkinter.Button(frame,
+                                                image=self.stop_image,
+                                                command=self.toggle_noise)
         self.start_stop_button.pack(side=Tkinter.LEFT, padx=10)
 
         slider_frame = Tkinter.Frame(frame)
         slider_frame.pack(side=Tkinter.LEFT)
 
-        self.pitch_scale = Tkinter.Scale(slider_frame, label='Pitch', command=self.pitch_change,
-                                         from_=1, to=200, orient=Tkinter.HORIZONTAL)
+        self.pitch_scale = Tkinter.Scale(slider_frame, label='Pitch',
+                                         command=self.pitch_change,
+                                         from_=1, to=200,
+                                         orient=Tkinter.HORIZONTAL)
         self.pitch_scale.set(pitch)
         self.pitch_scale.pack()
 
-        self.volume_scale = Tkinter.Scale(slider_frame, label="Volume", command=self.volume_change,
-                                          from_=0, to=100, orient=Tkinter.HORIZONTAL)
+        self.volume_scale = Tkinter.Scale(slider_frame, label="Volume",
+                                          command=self.volume_change,
+                                          from_=0, to=100,
+                                          orient=Tkinter.HORIZONTAL)
         self.volume_scale.set(volume)
         self.volume_scale.pack()
 
@@ -50,21 +57,25 @@ class App:
         self.whitenoise.stop()
         root.destroy()
 
-arg_parser = argparse.ArgumentParser(description='Generates white noise')
-arg_parser.add_argument('-v', '--volume', type=int,
-                        dest='volume', help='Initial volume for white noise',
-                        choices=range(1,101), default=100)
-arg_parser.add_argument('-p', '--pitch', type=int,
-                        dest='pitch', help='Initial pitch for white noise',
-                        choices=range(0, 201), default=100)
-args = arg_parser.parse_args()
 
-root = Tkinter.Tk()
-root.title("White Noise")
-root.iconbitmap(default='wn.ico')
-root.resizable(0, 0)
+if __name__ == '__main__':
+    arg_parser = argparse.ArgumentParser(description='Generates white noise')
+    arg_parser.add_argument('-v', '--volume', type=int,
+                            dest='volume',
+                            help='Initial volume for white noise',
+                            choices=range(1,101), default=100)
+    arg_parser.add_argument('-p', '--pitch', type=int,
+                            dest='pitch',
+                            help='Initial pitch for white noise',
+                            choices=range(0, 201), default=100)
+    args = arg_parser.parse_args()
 
-app = App(root, args.volume, args.pitch)
-root.protocol('WM_DELETE_WINDOW', app.destroy)
+    root = Tkinter.Tk()
+    root.title("White Noise")
+    root.iconbitmap(default='wn.ico')
+    root.resizable(0, 0)
 
-root.mainloop()
+    app = App(root, args.volume, args.pitch)
+    root.protocol('WM_DELETE_WINDOW', app.destroy)
+
+    root.mainloop()
